@@ -1,0 +1,2 @@
+GET,,,COOK,CONSUME,
+go_to(LOCATION(X)),look_for(X),"transpport(X, LOCATION(COOK))",cook(X),eat(X),
