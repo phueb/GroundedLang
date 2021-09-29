@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Tuple, Type
 
 from groundedlang.primitives import Primitive, PrimitiveArg
-from groundedlang.primitives import Success
+from groundedlang.success import Success
 
 
 @dataclass
