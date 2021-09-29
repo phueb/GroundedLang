@@ -9,8 +9,8 @@ What types these variables refer to must be documented in lexicon.py
 
 """
 
-from groundedlang.legality import match_arg_y_name, match_arg_y_category
-from groundedlang.event import EventSequence
+from groundedlang.event import Event
+from groundedlang.entity import Animate, InAnimate
 
 from semantics.verbs import verb2action
 
@@ -18,8 +18,9 @@ from semantics.verbs import verb2action
 entity2eat_sequences = {
 
     'Mary': (
-        EventSequence(
-            legal_y_names=['squirrel', 'fox'],
+        Event(
+            ys=[Animate.from_name('squirrel'),
+                Animate.from_name('fox')],
             likelihood=1,
             actions=[
                 verb2action['look_for'],
@@ -31,8 +32,9 @@ entity2eat_sequences = {
                 # verb2action['eat'],
             ],
         ),
-        EventSequence(
-            legal_y_names=['squirrel'],
+        Event(
+            ys=[Animate.from_name('squirrel'),
+                Animate.from_name('fox')],
             likelihood=1,
             actions=[
                 verb2action['look_for'],

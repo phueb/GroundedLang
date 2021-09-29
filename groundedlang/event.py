@@ -1,3 +1,7 @@
+"""
+An event consists of a sequence of actions that result in teh reduction of one drive
+"""
+
 from dataclasses import dataclass
 from typing import List, Optional, Callable, Any, Tuple, Union, Type
 
@@ -25,8 +29,8 @@ class Action:
 
 
 @dataclass
-class EventSequence:
-    legal_y_names: List[str]
+class Event:
+    ys: List[Union[Entity]]
     actions: List[Action]
     likelihood: int  # between 1 and 10
 

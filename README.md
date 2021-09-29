@@ -6,9 +6,11 @@ A Python-based tool for customizing and generating samples of artificial languag
 
 ## Design Considerations
 
-- complete independence of the world event semantics (and therefore the event corpus), the linguistic descriptions (and therefore the linguistic corpus), and the code.
+- complete independence of the world event semantics, the linguistic descriptions, and the code.
 - extreme generalizability, with as little as possible hard-coded, and as much as possible procedurally generated from config files.
 - customizable config files are human readable and editable in an intuitive way.
+
+- The names of Python objects should not refer to customizable entity names like `human` or `squirrel`. 
      
      
 ## Documentation

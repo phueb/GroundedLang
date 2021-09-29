@@ -44,9 +44,8 @@ class World:
                 # get one eating sequence
                 sequences = eat.entity2eat_sequences[animate_i.name]
                 sequence = random.choices(sequences, weights=[s.likelihood for s in sequences])[0]
-                # get y
-                y_name = random.choice(sequence.legal_y_names)
-                Ws.y = Entity(name=y_name, category='none')  # todo initialize entity here?
+                # save y to workspace
+                Ws.y = random.choice(sequence.ys)
 
             else:
                 raise NotImplementedError
