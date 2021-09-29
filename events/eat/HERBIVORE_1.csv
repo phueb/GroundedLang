@@ -1,3 +1,0 @@
-FIND_FOOD_SOURCE,,,CONVERT_TO_FOOD,,,,,
-CATCH,,KILL,TRANSPORT_HOME,,COOK,,CONSUME,
-look_for(X),chase(X),stab(X),lift(X),"transport(X,LOCATION(COOK))",heat(X),cook(X),eat(X),

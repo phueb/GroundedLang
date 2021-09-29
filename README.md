@@ -17,12 +17,9 @@ A Python-based tool for customizing and generating samples of artificial languag
 
 #### Event Files
 
-Event files are `.csv` files, which contain information about a single event tree. 
-Each event tree results in the reduction of a drive-level (e.g. an eating event reduces hunger). 
-Each leaf-node in the event tree is obligatory - each leaf-noe is an action that must be performed.
-Leaf-nodes are labeled with lower-case verbs, and non-leaf-nodes are labeled with upper-case strings.
-Leaf node labels are verbs that may be included in the corpus that describes the goings-on in the simulated world.
-Non-leaf node labels are arbitrary strings useful only for the user to conceptually organize event trees, but have no influence on computation.
+Event files are `.py` files, which contain information about all possible event sequences that result in the reduction of one drive-level (e.g. an eating event reduces hunger). 
+All steps in the event sequence are obligatory.
+All steps are labeled by verbs that may will be used to generate the linguistic corpus.
 
-An example leaf-node label is `transport(x, LOCATION(COOK))`. 
-`X` will be substituted with the entity to be transported. The name of this entity is in the file name of the event tree file, (e.g. HERBIVORE).
+An example label of an event step is `transport(x, LOCATION(COOK))`. 
+`X` will be substituted with the entity to be transported (e.g. HERBIVORE).
