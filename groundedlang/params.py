@@ -18,6 +18,8 @@ param2debug = {
 # default params
 param2default = {
     'num_turns': 2,
+    'max_x': 10,
+    'max_y': 10,
 
 }
 
@@ -29,6 +31,8 @@ class Params:
     and is populated by Ludwig with hyper-parameters corresponding to a single job.
     """
     num_turns: int
+    max_x: int
+    max_y: int
 
     @classmethod
     def from_param2val(cls, param2val):

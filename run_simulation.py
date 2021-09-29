@@ -3,4 +3,4 @@ from groundedlang.params import param2default
 
 
 if __name__ == '__main__':
-    main()
+    main(param2default)

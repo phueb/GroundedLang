@@ -1,7 +1,7 @@
+from dataclasses import dataclass
 
 
-from groundedlang.primitives import PrimitiveArg
-
-
-class Location(PrimitiveArg):
-    pass
+@dataclass
+class Location:
+    x: int
+    y: int
