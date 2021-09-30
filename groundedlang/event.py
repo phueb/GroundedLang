@@ -30,7 +30,7 @@ class Action:
 
 @dataclass
 class Event:
-    ys: List[Union[Entity]]
+    y_targets: List[Union[Entity]]
     actions: List[Action]
     likelihood: int  # between 1 and 10
 

@@ -17,10 +17,13 @@ from semantics.verbs import verb2action
 
 entity2eat_sequences = {
 
+    # HUMANS
+
     'Mary': (
         Event(
-            ys=[Animate.from_name('squirrel'),
-                Animate.from_name('fox')],
+            y_targets=[Animate.from_name('squirrel'),
+                       Animate.from_name('fox'),
+                       ],
             likelihood=1,
             actions=[
                 verb2action['look_for'],
@@ -33,8 +36,9 @@ entity2eat_sequences = {
             ],
         ),
         Event(
-            ys=[Animate.from_name('squirrel'),
-                Animate.from_name('fox')],
+            y_targets=[Animate.from_name('squirrel'),
+                       Animate.from_name('fox'),
+                       ],
             likelihood=1,
             actions=[
                 verb2action['look_for'],
@@ -45,7 +49,24 @@ entity2eat_sequences = {
         ),
     ),
 
+    # HERBIVORES
 
+    'squirrel': (
+        Event(
+            y_targets=[InAnimate.from_name('nut'),
+                       ],
+            likelihood=1,
+            actions=[
+                verb2action['look_for'],
+                # verb2action['chase'],
+                # verb2action['stab'],
+                # verb2action['transport'],
+                # verb2action['butcher'],
+                # verb2action['cook'],
+                # verb2action['eat'],
+            ],
+        ),
+    ),
 
 
 }

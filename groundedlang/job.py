@@ -1,8 +1,10 @@
 from typing import Dict, Any
 from pathlib import Path
 
+from groundedlang.corpus import Corpus
 from groundedlang.world import World
 from groundedlang.params import Params
+from groundedlang.workspace import WorkSpace as Ws
 
 
 def main(param2val: Dict[str, Any],
@@ -19,10 +21,32 @@ def main(param2val: Dict[str, Any],
     # if not save_path.exists():
     #     save_path.mkdir(parents=True)
 
+    corpus = Corpus()
+
     world = World(max_x=params.max_x,
                   max_y=params.max_y,
                   )
 
     for turn in range(params.num_turns):
+
+        print('-' * 60)
         print(f'turn={turn}')
-        world.turn()
+
+        # 1 turn iterates over all animates, and gives each a chance to complete 1 event
+        for action in world.turn():
+
+            print(Ws.x)
+            print(Ws.y)
+            print(Ws.z)
+
+            # transitive
+            if action.requires_x and action.requires_y and not action.requires_z:
+                sentence = f'{Ws.x} {action.name} {corpus.to_noun_phrase(Ws.y)}'
+            # ditransitive
+            elif action.requires_x and action.requires_y and action.requires_z:
+                sentence = f'{Ws.x} {action.name} {corpus.to_noun_phrase(Ws.y)} {corpus.to_noun_phrase(Ws.z)}'
+            else:
+                raise RuntimeError
+
+            print(sentence)
+            corpus.sentences.append(sentence)

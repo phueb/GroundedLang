@@ -12,6 +12,7 @@ class Entity:
                  ):
         self.name = name
         self.category = category
+        self.definite = False  # todo how does an entity become definite?
 
         self.location: Optional[Location] = None  # assigned upon initialization of World
 
@@ -24,6 +25,9 @@ class Entity:
     def from_name(cls, name: str):
 
         return cls(name=name, category='test')  # todo look up entity info like category in some database
+
+    def __str__(self):
+        return self.name
 
 
 class InAnimate(Entity):

@@ -1,4 +1,25 @@
 
+from groundedlang.entity import Entity
 
-xy_template = '{} {} {}'
-xyz_template = '{} {} {} {}'
+
+class Corpus:
+
+    def __init__(self):
+        self.sentences = []
+
+    def to_noun_phrase(self,
+                       entity: Entity,
+                       ):
+
+        res = ''
+
+        if entity.definite:
+            res += 'the '
+        else:
+            res += 'a '
+
+        res += entity.name
+
+        return res
+
+

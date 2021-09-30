@@ -6,7 +6,7 @@ A Python-based tool for customizing and generating samples of artificial languag
 
 ## Design Considerations
 
-- complete independence of the world event semantics, the linguistic descriptions, and the code.
+- complete independence of the world event semantics in `semantics`, the linguistic descriptions, and the code in `groundedlang`.
 - extreme generalizability, with as little as possible hard-coded, and as much as possible procedurally generated from config files.
 - customizable config files are human readable and editable in an intuitive way.
 
@@ -20,8 +20,23 @@ A Python-based tool for customizing and generating samples of artificial languag
 #### Event Files
 
 Event files are `.py` files, which contain information about all possible event sequences that result in the reduction of one drive-level (e.g. an eating event reduces hunger). 
-All steps in the event sequence are obligatory.
-All steps are labeled by verbs that may will be used to generate the linguistic corpus.
+All actions in the event sequence are obligatory.
+All actions correspond to verbs that will be used to generate the linguistic corpus.
+All actions are defined in terms of a set of primitives and their arguments.
 
-An example label of an event step is `transport(x, LOCATION(COOK))`. 
-`X` will be substituted with the entity to be transported (e.g. HERBIVORE).
+### Primitives
+
+Primitives are the only hard-coded functions that are allowed to operate on the world.
+ 
+
+### Corpus and Grammar
+
+#### Theta-Grid
+
+Each action is uniquely associated with a single verb, which is 1, 2, or 3 required arguments.
+The set of required arguments is called the theta-grid.
+The first argument, which is also always the first in the linear ordering of words in a sentence, is called `X`.
+The second argument, which is also always the second in the linear ordering of words in a sentence, is called `Y`.
+The third argument, which is also always the second in the linear ordering of words in a sentence, is called `Z`.
+
+#### Definiteness
