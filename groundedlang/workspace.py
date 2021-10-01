@@ -25,5 +25,5 @@ class WorkSpace:
         res = 'workspace:\n'
         res += f'x={cls.x}\n'
         res += f'y={cls.y}\n'
-        res += f'z={cls.z}\n'
+        res += f'z={cls.z}'
         return res

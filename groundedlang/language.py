@@ -3,6 +3,8 @@ import logging
 from groundedlang.entity import Entity
 from groundedlang.workspace import WorkSpace as Ws
 
+log_language = logging.getLogger('language')
+
 
 def to_noun_phrase(entity: Entity,
                    ):
@@ -23,8 +25,6 @@ class Corpus:
 
     def __init__(self):
         self.sentences = []
-
-        self.log = logging.getLogger('corpus')
 
 
 def make_sentence(action):

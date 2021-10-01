@@ -9,6 +9,8 @@ from groundedlang.workspace import WorkSpace as Ws
 
 from semantics import animates
 
+log_world = logging.getLogger('world')
+
 
 class World:
     def __init__(self,
@@ -17,7 +19,6 @@ class World:
                  num_animates: int = 2
                  ):
 
-        self.log_world = logging.getLogger('world')
 
         self.locations = [Location(x=x, y=y)
                           for x, y in product(range(max_x), range(max_y))]
@@ -41,7 +42,7 @@ class World:
 
             # add entity to workspace
             Ws.x = animate_i
-            self.log_world.debug(Ws.x)
+            log_world.debug(Ws.x)
             # get event_type to increase drive with highest level (e.g. "eat")
             event_type = animate_i.decide_event_type()
 
@@ -78,7 +79,7 @@ class World:
                         raise KeyError(f'Action {action} requires Z but none found.')
 
                 # modify world using primitives of the action
-                self.log_world.debug(Ws.summary())
+                log_world.debug(Ws.summary())
                 action.primitives()
 
                 yield action

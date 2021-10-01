@@ -10,13 +10,14 @@ log_primitives = logging.getLogger('primitives')
 
 
 class Primitive:
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class Move(Primitive):
     def __init__(self,
-                 entity_: Type[Primitive],
-                 location_: Type[Primitive],
+                 entity_: Primitive,
+                 location_: Primitive,
                  ):
         self.location_ = location_
         self.entity_ = entity_
@@ -49,10 +50,16 @@ class GetX(Primitive):
     def __getattr__(self, item):
         """we need to return a function that returns the attribute, instead of getting the attribute right away"""
 
-        def callback():
-            return getattr(Ws.x, item)
+        log_primitives.debug(f'Calling __gettattr__ with "{item}"')
 
-        return callback
+        class Attr(Primitive):
+            log_primitives.debug('Initialized Attr')
+
+            def __call__(self):
+                log_primitives.debug('Calling Attr')
+                return getattr(Ws.x, item)
+
+        return Attr()
 
 
 class GetY(Primitive):

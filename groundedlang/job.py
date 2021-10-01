@@ -5,11 +5,13 @@ from groundedlang.language import Corpus, make_sentence
 from groundedlang.world import World
 from groundedlang.params import Params
 
+LOGGING_LEVEL = 'INFO'
+
 
 def main(param2val: Dict[str, Any],
          ):
 
-    logging.basicConfig(level='INFO')
+    logging.basicConfig(level=LOGGING_LEVEL)
     log_main = logging.getLogger('main')
 
     # params
@@ -44,6 +46,6 @@ def main(param2val: Dict[str, Any],
             sentence = make_sentence(action)
 
             corpus.sentences.append(sentence)
-            corpus.log.info(sentence)
+            log_main.info(sentence)
 
 

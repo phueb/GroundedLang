@@ -5,7 +5,6 @@ This file defines what primitives are triggered by each verb.
 from groundedlang.workspace import WorkSpace as Ws
 from groundedlang.success import Success
 from groundedlang.primitives import GetX, GetY, GetZ
-# from groundedlang.primitives import GetAttr
 from groundedlang.primitives import Move
 from groundedlang.primitives import InspectLocation
 from groundedlang.event import Action
