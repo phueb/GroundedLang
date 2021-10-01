@@ -3,7 +3,7 @@ An event consists of a sequence of actions that result in teh reduction of one d
 """
 
 from dataclasses import dataclass
-from typing import List, Optional, Callable, Any, Tuple, Union, Type
+from typing import List, Optional, Dict, Any, Tuple, Union, Type
 
 from groundedlang.entity import Entity, Animate
 from groundedlang.location import Location
@@ -14,11 +14,7 @@ from groundedlang.success import Success
 @dataclass
 class Action:
     name: str
-    primitives: List[
-        Tuple[Type[Primitive],
-              List[Union[Entity, Location]]
-        ]
-    ]
+    primitives: Primitive
     success: Tuple[Success.is_equal,
                    List[Union[Entity, Location]]
     ]
@@ -27,12 +23,17 @@ class Action:
     requires_y: bool = False
     requires_z: bool = False
 
+    def __str__(self):
+        return f'"{self.name}"'
+
 
 @dataclass
 class Event:
-    y_targets: List[Union[Entity]]
     actions: List[Action]
     likelihood: int  # between 1 and 10
+
+    requirements_y: Dict[Action, List[Union[Location, Entity]]]
+    requirements_z: Optional[Dict[Action, List[Union[Location]]]] = None
 
 
 

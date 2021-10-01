@@ -43,21 +43,34 @@ class World:
 
             # get event
             if event_type == 'eat':
-                # import eat sequences only once workspace has been updated
+                # import eat events only once workspace has been updated
                 from semantics import eat
                 # get one eating sequence
                 try:
-                    sequences = eat.entity2eat_sequences[animate_i.name]
+                    events = eat.entity2eat_events[animate_i.name]
                 except KeyError:
                     raise KeyError(f'{animate_i} does not have any "eat" event.')
                 else:
-                    sequence = random.choices(sequences, weights=[s.likelihood for s in sequences])[0]
-                # save y to workspace
-                Ws.y = random.choice(sequence.y_targets)
+                    event = random.choices(events, weights=[s.likelihood for s in events])[0]
 
             else:
                 raise NotImplementedError
 
-            # entity performs as many actions as it can in event sequence
-            for action in sequence.actions:
+            # entity performs as many actions as it can in event
+            for action in event.actions:
+
+                # check y requirement
+                if action.requires_y:
+                    try:
+                        Ws.y = random.choice(event.requirements_y[action.name])  # todo test
+                    except KeyError:
+                        raise KeyError(f'Action {action} requires Y but none found.')
+
+                # check z requirement
+                if action.requires_z:
+                    try:
+                        Ws.z = random.choice(event.requirements_z[action.name])  # todo test
+                    except KeyError:
+                        raise KeyError(f'Action {action} requires Z but none found.')
+
                 yield action

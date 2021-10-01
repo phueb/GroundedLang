@@ -15,15 +15,17 @@ from groundedlang.entity import Animate, InAnimate
 from semantics.verbs import verb2action
 
 
-entity2eat_sequences = {
+entity2eat_events = {
 
     # HUMANS
 
     'Mary': (
         Event(
-            y_targets=[Animate.from_name('squirrel'),
-                       Animate.from_name('fox'),
-                       ],
+            requirements_y={
+                verb2action['look_for'].name: [
+                    Animate.from_name('fox'),
+                ],
+            },
             likelihood=1,
             actions=[
                 verb2action['look_for'],
@@ -36,9 +38,11 @@ entity2eat_sequences = {
             ],
         ),
         Event(
-            y_targets=[Animate.from_name('squirrel'),
-                       Animate.from_name('fox'),
-                       ],
+            requirements_y={
+                verb2action['look_for'].name: [
+                    Animate.from_name('squirrel'),
+                ],
+            },
             likelihood=1,
             actions=[
                 verb2action['look_for'],
@@ -53,8 +57,12 @@ entity2eat_sequences = {
 
     'squirrel': (
         Event(
-            y_targets=[InAnimate.from_name('nut'),
-                       ],
+            requirements_y={
+                verb2action['look_for'].name: [
+                    Animate.from_name('nut'),
+                    Animate.from_name('fruit'),
+                ],
+            },
             likelihood=1,
             actions=[
                 verb2action['look_for'],

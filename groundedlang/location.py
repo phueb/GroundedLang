@@ -5,3 +5,5 @@ from dataclasses import dataclass
 class Location:
     x: int
     y: int
+
+    entities = []

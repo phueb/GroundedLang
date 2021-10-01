@@ -1,7 +1,7 @@
 from typing import Dict, Any
 from pathlib import Path
 
-from groundedlang.corpus import Corpus
+from groundedlang.corpus import Corpus, to_noun_phrase
 from groundedlang.world import World
 from groundedlang.params import Params
 from groundedlang.workspace import WorkSpace as Ws
@@ -35,16 +35,12 @@ def main(param2val: Dict[str, Any],
         # 1 turn iterates over all animates, and gives each a chance to complete 1 event
         for action in world.turn():
 
-            print(Ws.x)
-            print(Ws.y)
-            print(Ws.z)
-
             # transitive
             if action.requires_x and action.requires_y and not action.requires_z:
-                sentence = f'{Ws.x} {action.name} {corpus.to_noun_phrase(Ws.y)}'
+                sentence = f'{Ws.x} {action.name} {to_noun_phrase(Ws.y)}'
             # ditransitive
             elif action.requires_x and action.requires_y and action.requires_z:
-                sentence = f'{Ws.x} {action.name} {corpus.to_noun_phrase(Ws.y)} {corpus.to_noun_phrase(Ws.z)}'
+                sentence = f'{Ws.x} {action.name} {to_noun_phrase(Ws.y)} {to_noun_phrase(Ws.z)}'
             else:
                 raise RuntimeError
 

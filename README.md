@@ -27,6 +27,7 @@ All actions are defined in terms of a set of primitives and their arguments.
 ### Primitives
 
 Primitives are the only hard-coded functions that are allowed to operate on the world.
+Primitives are functions that manipulate the spatial location of entities in the world (and possibly parts of entities, e.g. hand, foot).
  
 
 ### Corpus and Grammar
@@ -35,8 +36,8 @@ Primitives are the only hard-coded functions that are allowed to operate on the 
 
 Each action is uniquely associated with a single verb, which is 1, 2, or 3 required arguments.
 The set of required arguments is called the theta-grid.
-The first argument, which is also always the first in the linear ordering of words in a sentence, is called `X`.
-The second argument, which is also always the second in the linear ordering of words in a sentence, is called `Y`.
-The third argument, which is also always the second in the linear ordering of words in a sentence, is called `Z`.
+The 1st argument, which is also always the 1st in the linear ordering of words in a sentence, is called `X`.
+The 2nd argument, which is also always the 2nd in the linear ordering of words in a sentence, is called `Y`.
+The 3rd argument, which is also always the 3rd in the linear ordering of words in a sentence, is called `Z`.
 
 #### Definiteness
