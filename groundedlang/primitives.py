@@ -1,17 +1,46 @@
 from typing import Union, Type
-import logging
+import colorlog
 
 from groundedlang.workspace import WorkSpace as Ws
 from groundedlang.location import Location
 from groundedlang.entity import Entity, Animate, InAnimate
 
 
-log_primitives = logging.getLogger('primitives')
+handler = colorlog.StreamHandler()
+handler.setFormatter(colorlog.ColoredFormatter(
+    fmt='%(log_color)s%(levelname)s:%(name)s:%(message)s',
+    log_colors={
+        'DEBUG': 'blue',
+        'INFO': 'blue',
+        'WARNING': 'yellow',
+        'ERROR': 'red',
+        'CRITICAL': 'red,bg_white',
+    },
+))
+
+log_primitives = colorlog.getLogger('primitives')
+log_primitives.addHandler(handler)
+log_primitives.setLevel('DEBUG')
 
 
 class Primitive:
     def __call__(self):
         raise NotImplementedError
+
+
+def resolve(a: Union[Primitive, Entity]):
+    if isinstance(a, Primitive):
+        return a()
+    else:
+        return a
+
+
+class Empty(Primitive):
+    def __init__(self):
+        pass
+
+    def __call__(self):
+        return True
 
 
 class Move(Primitive):
@@ -23,9 +52,11 @@ class Move(Primitive):
         self.entity_ = entity_
 
     def __call__(self, *args, **kwargs) -> Location:
-        target_location: Location = self.location_()
-        self.entity_.location = target_location
-        return target_location
+        location_target: Location = self.location_()
+        entity: Entity = self.entity_()
+        log_primitives.debug(f'Moving {entity}\nto {location_target}')
+        entity.location = location_target
+        return location_target
 
 
 class InspectLocation(Primitive):
@@ -37,7 +68,13 @@ class InspectLocation(Primitive):
         self.entity_ = entity_
 
     def __call__(self) -> bool:
-        return self.entity_() in self.location_().entities
+        entity = self.entity_()
+        location = self.location_()
+        found = entity in location.entities
+        if not found:
+            log_primitives.debug(f'Did not find {entity} in {location}'
+                                 f'{location.entities}')
+        return found
 
 
 class GetX(Primitive):
@@ -63,7 +100,7 @@ class GetX(Primitive):
 
 
 class GetY(Primitive):
-    def __call__(self) -> Union[Entity, Location]:
+    def __call__(self) -> Entity:
         return Ws.y
 
 

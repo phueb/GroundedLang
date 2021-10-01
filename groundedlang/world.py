@@ -1,15 +1,31 @@
 from itertools import product
 import random
-from typing import List, Generator
-import logging
+from typing import Union, Generator
+import colorlog
 
+from groundedlang.entity import InAnimate, Animate
+from groundedlang.primitives import resolve
 from groundedlang.event import Action
 from groundedlang.location import Location
 from groundedlang.workspace import WorkSpace as Ws
 
 from semantics import animates
+from semantics import inanimates
 
-log_world = logging.getLogger('world')
+handler = colorlog.StreamHandler()
+handler.setFormatter(colorlog.ColoredFormatter(
+    fmt='%(log_color)s%(levelname)s:%(name)s:%(message)s',
+    log_colors={
+        'DEBUG': 'green',
+        'INFO': 'green',
+        'WARNING': 'yellow',
+        'ERROR': 'red',
+        'CRITICAL': 'red,bg_white',
+    },
+))
+
+log_world = colorlog.getLogger('world')
+log_world.addHandler(handler)
 log_world.setLevel('DEBUG')
 
 
@@ -17,21 +33,30 @@ class World:
     def __init__(self,
                  max_x: int,
                  max_y: int,
-                 num_animates: int = 2
+                 num_animates: int = 2,  # num instances not types
+                 num_inanimates: int = 100,  # num instances not types
                  ):
 
         self.locations = [Location(x=x, y=y)
                           for x, y in product(range(max_x), range(max_y))]
 
-        # include a sample of entities
-        self.animates = random.sample(animates.population, k=num_animates)
+        self.animates = []
+        self.inanimates = []
 
-        # assign locations
-        for animate_i in self.animates:
-            animate_i.location = random.choice(self.locations)
-            animate_i.eat_location = animate_i.location
+        # animates
+        for ae_def in random.choices(animates.definitions, k=num_animates):
+            ae = Animate.from_def(ae_def)
+            ae.location = random.choice(self.locations)
+            ae.eat_location = ae.location  # todo but only humans have a non-changing eating location
+            self.animates.append(ae)
 
-        log_world.debug('Initialized world')
+        # inanimates
+        for ie_def in random.choices(inanimates.definitions, k=num_inanimates):
+            ie = InAnimate.from_def(ie_def)
+            ie.location = random.choice(self.locations)
+            self.inanimates.append(ie)
+
+        log_world.debug(f'Initialized world with {len(self.locations)} locations')
 
     def turn(self) -> Generator[Action, None, None]:
         """
@@ -42,9 +67,12 @@ class World:
 
         for animate_i in self.animates:
 
+            # clear workspace
+            Ws.reset()
+
             # add entity to workspace
             Ws.x = animate_i
-            log_world.debug(Ws.x)
+
             # get event_type to increase drive with highest level (e.g. "eat")
             event_type = animate_i.decide_event_type()
 
@@ -67,26 +95,49 @@ class World:
             for action in event.actions:
 
                 # check y requirement
-                if action.requires_y:
+                if action.requires_y and Ws.y is None:
                     try:
-                        Ws.y = random.choice(event.requirements_y[action.name])
+                        entity_loaders = event.requirements_y[action.name]
+                        entity_loader = random.choice(entity_loaders)
+                        Ws.y = resolve(entity_loader())
+                        log_world.debug(f'Loaded {Ws.y}')
                     except KeyError:
                         raise KeyError(f'Action {action} requires Y but none found.')
 
                 # check z requirement
-                if action.requires_z:
+                if action.requires_z and Ws.z is None:
                     try:
-                        Ws.z = random.choice(event.requirements_z[action.name])
+                        entity_loaders = event.requirements_z[action.name]
+                        entity_loader = random.choice(entity_loaders)
+                        Ws.z = resolve(entity_loader)()
                     except KeyError:
                         raise KeyError(f'Action {action} requires Z but none found.')
 
                 # did action fail due to chance?
                 if random.random() > action.failure_probability:
                     log_world.debug(f'{action} failed')
+                    continue
 
-                # modify world using primitives of the action
-                for primitive in action.primitives:
-                    log_world.debug(Ws.summarize())
-                    primitive()
+                # try to perform primitives
+                num_attempts = 0
+                while num_attempts < action.num_attempts:
+
+                    # modify world using primitives of the action
+                    success = False
+                    for primitive in action.primitives:
+                        log_world.debug(f'Calling primitives of {action}')
+                        success = primitive()
+                        log_world.debug('After primitive call:')
+                        log_world.debug(Ws.summarize())
+
+                    if success:
+                        log_world.debug('Success.')
+                        break
+
+                    num_attempts += 1
+
+                else:
+                    log_world.warning(f'{event} failed.')
+                    break
 
                 yield action

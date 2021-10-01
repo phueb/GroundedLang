@@ -18,8 +18,10 @@ param2debug = {
 # default params
 param2default = {
     'num_turns': 2,
-    'max_x': 10,
-    'max_y': 10,
+    'max_x': 4,
+    'max_y': 4,
+
+    'add_period': True,
 
 }
 
@@ -33,6 +35,8 @@ class Params:
     num_turns: int
     max_x: int
     max_y: int
+
+    add_period: bool
 
     @classmethod
     def from_param2val(cls, param2val):

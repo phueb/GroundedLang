@@ -1,5 +1,6 @@
 import logging
 
+from groundedlang.event import Action
 from groundedlang.entity import Entity
 from groundedlang.workspace import WorkSpace as Ws
 
@@ -10,6 +11,9 @@ def to_noun_phrase(entity: Entity,
                    ):
 
     res = ''
+
+    if entity.category == 'LOCATION':
+        res += 'to '
 
     if entity.definite:
         res += 'the '
@@ -27,7 +31,9 @@ class Corpus:
         self.sentences = []
 
 
-def make_sentence(action):
+def make_sentence(action: Action,
+                  add_period: bool,
+                  ):
     # transitive
     if action.requires_x and action.requires_y and not action.requires_z:
         sentence = f'{Ws.x.name} {action.name} {to_noun_phrase(Ws.y)}'
@@ -36,5 +42,8 @@ def make_sentence(action):
         sentence = f'{Ws.x.name} {action.name} {to_noun_phrase(Ws.y)} {to_noun_phrase(Ws.z)}'
     else:
         raise RuntimeError
+
+    if add_period:
+        sentence += ' .'
 
     return sentence

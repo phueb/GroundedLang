@@ -1,18 +1,28 @@
-from groundedlang.entity import Animate
+from groundedlang.entity import EntityDefinition, Animate
 
-population = (
+definitions = [
 
     # HUMAN
 
-    Animate(
+    EntityDefinition(
         name='Mary',
         category='HUMAN',
+        cls=Animate,
+    ),
+
+    # CARNIVORE
+
+    EntityDefinition(
+        name='fox',
+        category='CARNIVORE',
+        cls=Animate,
     ),
 
     # HERBIVORE
 
-    Animate(
+    EntityDefinition(
         name='squirrel',
         category='HERBIVORE',
+        cls=Animate,
     ),
-)
+]

@@ -13,7 +13,7 @@ class WorkSpace:
     # theta-grid.
     # x is always first in sentence, y is always second, and z is always third.
     x: Optional[Animate] = None
-    y: Optional[Union[Entity, Location]] = None
+    y: Optional[Entity] = None
     z: Optional[InAnimate] = None
 
     @property
@@ -22,8 +22,15 @@ class WorkSpace:
 
     @classmethod
     def summarize(cls):
-        res = 'workspace:\n'
-        res += f'x={cls.x}\n'
-        res += f'y={cls.y}\n'
-        res += f'z={cls.z}'
+        res = 'Workspace:\n'
+        res += f'   x={cls.x}\n'
+        res += f'   y={cls.y}\n'
+        res += f'   z={cls.z}'
         return res
+
+    @classmethod
+    def reset(cls):
+        cls.x = None
+        cls.y = None
+        cls.z = None
+

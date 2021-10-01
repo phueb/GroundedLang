@@ -5,6 +5,7 @@ This file defines what primitives are triggered by each verb.
 from groundedlang.workspace import WorkSpace as Ws
 from groundedlang.primitives import GetX, GetY, GetZ
 from groundedlang.primitives import Move
+from groundedlang.primitives import Empty
 from groundedlang.primitives import InspectLocation
 from groundedlang.event import Action
 
@@ -13,6 +14,30 @@ verb2action = {
         name='look_for',
         primitives=[
             InspectLocation(Move(GetX(), GetX().adjacent_location), GetY()),
+        ],
+        failure_probability=0.9,
+        num_attempts=10,
+        requires_x=True,
+        requires_y=True,
+        requires_z=False,
+    ),
+
+    'chase': Action(
+        name='chase',
+        primitives=[
+            Empty(),
+        ],
+        failure_probability=0.9,
+        num_attempts=10,
+        requires_x=True,
+        requires_y=True,
+        requires_z=False,
+    ),
+
+    'stab': Action(
+        name='stab',
+        primitives=[
+            Empty(),
         ],
         failure_probability=0.9,
         num_attempts=10,

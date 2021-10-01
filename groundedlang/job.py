@@ -54,7 +54,8 @@ def main(param2val: Dict[str, Any]):
         # 1 turn iterates over all animates, and gives each a chance to complete 1 event
         for action in world.turn():
 
-            sentence = make_sentence(action)
+            # convert action into 1 sentence
+            sentence = make_sentence(action, params.add_period)
 
             corpus.sentences.append(sentence)
             log_main.info(sentence)

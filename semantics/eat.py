@@ -9,6 +9,7 @@ What types these variables refer to must be documented in lexicon.py
 
 """
 
+from groundedlang.load import LoadEntity
 from groundedlang.event import Event
 from groundedlang.entity import Animate, InAnimate
 
@@ -22,32 +23,41 @@ entity2eat_events = {
     'Mary': (
         Event(
             requirements_y={
-                verb2action['look_for'].name: [
-                    Animate.from_name('fox'),
+                'look_for': [
+                    LoadEntity(cls=Animate, name='fox'),
+                ],
+            },
+            requirements_z={
+                'transport': [
+                    LoadEntity(cls=InAnimate, name='tent'),
                 ],
             },
             likelihood=1,
             actions=[
                 verb2action['look_for'],
-                # verb2action['chase'],
-                # verb2action['stab'],
-                # verb2action['transport'],
+                verb2action['chase'],
+                verb2action['stab'],
+                verb2action['transport'],
                 # verb2action['butcher'],
                 # verb2action['cook'],
                 # verb2action['eat'],
             ],
         ),
+    ),
+
+    # CARNIVORES
+
+    'fox': (
         Event(
             requirements_y={
-                verb2action['look_for'].name: [
-                    Animate.from_name('squirrel'),
+                'look_for': [
+                    LoadEntity(cls=InAnimate, name='strawberry'),
+                    LoadEntity(cls=InAnimate, name='acorn'),
                 ],
             },
             likelihood=1,
             actions=[
                 verb2action['look_for'],
-                # verb2action['chase'],
-                # verb2action['stab'],
                 # verb2action['eat'],
             ],
         ),
@@ -58,19 +68,14 @@ entity2eat_events = {
     'squirrel': (
         Event(
             requirements_y={
-                verb2action['look_for'].name: [
-                    Animate.from_name('nut'),
-                    Animate.from_name('fruit'),
+                'look_for': [
+                    LoadEntity(cls=InAnimate, name='strawberry'),
+                    LoadEntity(cls=InAnimate, name='acorn'),
                 ],
             },
             likelihood=1,
             actions=[
                 verb2action['look_for'],
-                # verb2action['chase'],
-                # verb2action['stab'],
-                # verb2action['transport'],
-                # verb2action['butcher'],
-                # verb2action['cook'],
                 # verb2action['eat'],
             ],
         ),
