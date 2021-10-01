@@ -19,3 +19,11 @@ class WorkSpace:
     @property
     def last_result(self):
         return self.results.get()
+
+    @classmethod
+    def summary(cls):
+        res = 'workspace:\n'
+        res += f'x={cls.x}\n'
+        res += f'y={cls.y}\n'
+        res += f'z={cls.z}\n'
+        return res

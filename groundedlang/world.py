@@ -1,6 +1,7 @@
 from itertools import product
 import random
 from typing import List, Generator
+import logging
 
 from groundedlang.event import Action
 from groundedlang.location import Location
@@ -15,6 +16,8 @@ class World:
                  max_y: int,
                  num_animates: int = 2
                  ):
+
+        self.log_world = logging.getLogger('world')
 
         self.locations = [Location(x=x, y=y)
                           for x, y in product(range(max_x), range(max_y))]
@@ -38,6 +41,7 @@ class World:
 
             # add entity to workspace
             Ws.x = animate_i
+            self.log_world.debug(Ws.x)
             # get event_type to increase drive with highest level (e.g. "eat")
             event_type = animate_i.decide_event_type()
 
@@ -72,5 +76,9 @@ class World:
                         Ws.z = random.choice(event.requirements_z[action.name])  # todo test
                     except KeyError:
                         raise KeyError(f'Action {action} requires Z but none found.')
+
+                # modify world using primitives of the action
+                self.log_world.debug(Ws.summary())
+                action.primitives()
 
                 yield action
