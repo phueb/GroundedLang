@@ -8,16 +8,13 @@ from typing import List, Optional, Dict, Any, Tuple, Union, Type
 from groundedlang.entity import Entity, Animate
 from groundedlang.location import Location
 from groundedlang.primitives import Primitive
-from groundedlang.success import Success
 
 
 @dataclass
 class Action:
     name: str
-    primitives: Primitive
-    success: Tuple[Success.is_equal,
-                   List[Union[Entity, Location]]
-    ]
+    primitives: List[Primitive]
+    failure_probability: float
     num_attempts: int
     requires_x: bool = False
     requires_y: bool = False

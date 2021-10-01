@@ -23,21 +23,21 @@ class Move(Primitive):
         self.entity_ = entity_
 
     def __call__(self, *args, **kwargs) -> Location:
-        target_location = self.location_.__call__()
-        self.entity_.__call__().location = target_location
+        target_location: Location = self.location_()
+        self.entity_.location = target_location
         return target_location
 
 
 class InspectLocation(Primitive):
     def __init__(self,
-                 location_: Type[Primitive],
-                 entity_: Type[Primitive],
+                 location_: Primitive,
+                 entity_: Primitive,
                  ):
         self.location_ = location_
         self.entity_ = entity_
 
     def __call__(self) -> bool:
-        return self.entity_.__call__() in self.location_.__call__().entities
+        return self.entity_() in self.location_().entities
 
 
 class GetX(Primitive):

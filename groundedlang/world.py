@@ -10,6 +10,7 @@ from groundedlang.workspace import WorkSpace as Ws
 from semantics import animates
 
 log_world = logging.getLogger('world')
+log_world.setLevel('DEBUG')
 
 
 class World:
@@ -18,7 +19,6 @@ class World:
                  max_y: int,
                  num_animates: int = 2
                  ):
-
 
         self.locations = [Location(x=x, y=y)
                           for x, y in product(range(max_x), range(max_y))]
@@ -30,6 +30,8 @@ class World:
         for animate_i in self.animates:
             animate_i.location = random.choice(self.locations)
             animate_i.eat_location = animate_i.location
+
+        log_world.debug('Initialized world')
 
     def turn(self) -> Generator[Action, None, None]:
         """
@@ -67,19 +69,24 @@ class World:
                 # check y requirement
                 if action.requires_y:
                     try:
-                        Ws.y = random.choice(event.requirements_y[action.name])  # todo test
+                        Ws.y = random.choice(event.requirements_y[action.name])
                     except KeyError:
                         raise KeyError(f'Action {action} requires Y but none found.')
 
                 # check z requirement
                 if action.requires_z:
                     try:
-                        Ws.z = random.choice(event.requirements_z[action.name])  # todo test
+                        Ws.z = random.choice(event.requirements_z[action.name])
                     except KeyError:
                         raise KeyError(f'Action {action} requires Z but none found.')
 
+                # did action fail due to chance?
+                if random.random() > action.failure_probability:
+                    log_world.debug(f'{action} failed')
+
                 # modify world using primitives of the action
-                log_world.debug(Ws.summary())
-                action.primitives()
+                for primitive in action.primitives:
+                    log_world.debug(Ws.summarize())
+                    primitive()
 
                 yield action

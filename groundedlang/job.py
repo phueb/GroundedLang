@@ -1,18 +1,29 @@
 from typing import Dict, Any
-import logging
+import colorlog
 
 from groundedlang.language import Corpus, make_sentence
 from groundedlang.world import World
 from groundedlang.params import Params
 
-LOGGING_LEVEL = 'INFO'
+
+handler = colorlog.StreamHandler()
+handler.setFormatter(colorlog.ColoredFormatter(
+    fmt='%(log_color)s%(levelname)s:%(name)s:%(message)s',
+    log_colors={
+        'DEBUG': 'cyan',
+        'INFO': 'black',
+        'WARNING': 'yellow',
+        'ERROR': 'red',
+        'CRITICAL': 'red,bg_white',
+    },
+))
+
+log_main = colorlog.getLogger('main')
+log_main.addHandler(handler)
+log_main.setLevel('DEBUG')
 
 
-def main(param2val: Dict[str, Any],
-         ):
-
-    logging.basicConfig(level=LOGGING_LEVEL)
-    log_main = logging.getLogger('main')
+def main(param2val: Dict[str, Any]):
 
     # params
     params = Params.from_param2val(param2val)
@@ -48,4 +59,5 @@ def main(param2val: Dict[str, Any],
             corpus.sentences.append(sentence)
             log_main.info(sentence)
 
+    return []
 

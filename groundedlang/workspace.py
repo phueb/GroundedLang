@@ -21,7 +21,7 @@ class WorkSpace:
         return self.results.get()
 
     @classmethod
-    def summary(cls):
+    def summarize(cls):
         res = 'workspace:\n'
         res += f'x={cls.x}\n'
         res += f'y={cls.y}\n'
