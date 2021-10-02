@@ -1,8 +1,10 @@
-# GroundedLang
+<div align="center">
+ <img src="images/logo.png" width="250"> 
+</div>
 
-A Python-based tool for customizing and generating samples of artificial language with semantic structure that is grounded in a simulated hunter-gatherer world.  
+A Python toolkit for customizing and generating samples of artificial language with semantic structure that is grounded in a simulated world.  
 
-
+Research-code. Under active development.
 
 ## Design Considerations
 
@@ -58,3 +60,8 @@ Selectional preferences (ie., c-selection) is defined in `semantics/verbs.py`.
 ### Semantic Roles
 
 Semantic roles are not explicitly defined, but are implicit in the definitions of verbs and their possible arguments.
+
+
+## Compatibility
+
+Developed on Ubuntu 18.04 and Python 3.7
