@@ -13,13 +13,12 @@ A Python-based tool for customizing and generating samples of artificial languag
 - The names of Python objects should not refer to customizable entity names like `human` or `squirrel`. 
      
      
-## Documentation
+## The World
 
 ### Events
 
-#### Event Files
-
-Event files are `.py` files, which contain information about all possible event sequences that result in the reduction of one drive-level (e.g. an eating event reduces hunger). 
+Events are sequences of actions that result in the reduction of one drive-level (e.g. an eating event reduces hunger). 
+Events are defined using `.py` files in `semantics`.
 All actions in the event sequence are obligatory.
 All actions correspond to verbs that will be used to generate the linguistic corpus.
 All actions are defined in terms of a set of primitives and their arguments.
@@ -28,16 +27,34 @@ All actions are defined in terms of a set of primitives and their arguments.
 
 Primitives are the only hard-coded functions that are allowed to operate on the world.
 Primitives are functions that manipulate the spatial location of entities in the world (and possibly parts of entities, e.g. hand, foot).
- 
 
-### Corpus and Grammar
 
-#### Theta-Grid
 
-Each action is uniquely associated with a single verb, which is 1, 2, or 3 required arguments.
+## Linguistic Descriptions
+
+### Grammatical Structure
+
+#### Theta Roles
+
+The only grammatical rule has to do with ordering of verb arguments. 
+There is only one correct ordering.
+
+Each action is uniquely associated with a single verb, which has 1, 2, or 3 required arguments.
 The set of required arguments is called the theta-grid.
-The 1st argument, which is also always the 1st in the linear ordering of words in a sentence, is called `X`.
-The 2nd argument, which is also always the 2nd in the linear ordering of words in a sentence, is called `Y`.
-The 3rd argument, which is also always the 3rd in the linear ordering of words in a sentence, is called `Z`.
+The 1st argument, called `X`, is always 1st in the linear ordering of words in a sentence.
+The 2nd argument, called `Y`, is always 2nd in the linear ordering of words in a sentence.
+The 3rd argument, called `Z`, is always 3rd in the linear ordering of words in a sentence.
+If a verb requires a `Z`, then it must also require a `Y` and `X`.
+If a verb requires a `Y`, then it must also require an `X`.
 
-#### Definiteness
+### Semantic Structure
+
+### Definiteness
+
+### S-Selection
+
+Selectional preferences (ie., c-selection) is defined in `semantics/verbs.py`.
+
+### Semantic Roles
+
+Semantic roles are not explicitly defined, but are implicit in the definitions of verbs and their possible arguments.
