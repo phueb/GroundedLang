@@ -17,9 +17,13 @@ param2debug = {
 
 # default params
 param2default = {
+
+    # world
     'num_turns': 2,
     'max_x': 4,
     'max_y': 4,
+    'num_animates': 16,
+    'num_inanimates': 16,
 
     'add_period': True,
 
@@ -35,6 +39,8 @@ class Params:
     num_turns: int
     max_x: int
     max_y: int
+    num_animates: int
+    num_inanimates: int
 
     add_period: bool
 

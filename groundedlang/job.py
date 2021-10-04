@@ -1,7 +1,9 @@
 from typing import Dict, Any
 import colorlog
 
-from groundedlang.language import Corpus, make_sentence
+from groundedlang.event import Action
+from groundedlang.language import Corpus, to_noun_phrase
+from groundedlang.workspace import WorkSpace as Ws
 from groundedlang.world import World
 from groundedlang.params import Params
 
@@ -44,6 +46,8 @@ def main(param2val: Dict[str, Any]):
 
     world = World(max_x=params.max_x,
                   max_y=params.max_y,
+                  num_animates=params.num_animates,
+                  num_inanimates=params.num_inanimates,
                   )
 
     for turn in range(params.num_turns):
@@ -62,3 +66,20 @@ def main(param2val: Dict[str, Any]):
 
     return []
 
+
+def make_sentence(action: Action,
+                  add_period: bool,
+                  ):
+    # transitive
+    if action.requires_x and action.requires_y and not action.requires_z:
+        sentence = f'{Ws.x.name} {action.name} {to_noun_phrase(Ws.y)}'
+    # ditransitive
+    elif action.requires_x and action.requires_y and action.requires_z:
+        sentence = f'{Ws.x.name} {action.name} {to_noun_phrase(Ws.y)} {to_noun_phrase(Ws.z)}'
+    else:
+        raise RuntimeError
+
+    if add_period:
+        sentence += ' .'
+
+    return sentence

@@ -34,11 +34,14 @@ Primitives are functions that manipulate the spatial location of entities in the
 
 ## Linguistic Descriptions
 
+Currently, the linguistic descriptions of goings-on in the world conform exclusively to argument structure. 
+This means that teh sole determinant of the structure of a sentence is argument structure of the verb.
+
 ### Grammatical Structure
 
-#### Theta Roles
+#### Syntax
 
-The only grammatical rule has to do with ordering of verb arguments. 
+The only syntactic rule has to do with ordering of verb arguments. 
 There is only one correct ordering.
 
 Each action is uniquely associated with a single verb, which has 1, 2, or 3 required arguments.
@@ -49,18 +52,29 @@ The 3rd argument, called `Z`, is always 3rd in the linear ordering of words in a
 If a verb requires a `Z`, then it must also require a `Y` and `X`.
 If a verb requires a `Y`, then it must also require an `X`.
 
+#### Morphology 
+
+No morphological rules as of yet.
+
 ### Semantic Structure
 
 ### Definiteness
 
+We distinguish between *a squirrel* and *the squirrel*. 
+For instance, when a human is looking for a squirrel, it is not any particular squirrel.
+Once the human has found a particular squirrel, it is referred to as *the squirrel*.
+
 ### S-Selection
 
-Selectional preferences (ie., c-selection) is defined in `semantics/verbs.py`.
+Selectional preferences (ie., c-selection) are defined in `semantics/verbs.py`.
+C-selection is entirely lexical; that is, each verb selects lexical items - as opposed to categories - as arguments.
 
 ### Semantic Roles
 
 Semantic roles are not explicitly defined, but are implicit in the definitions of verbs and their possible arguments.
-
+Semantic roles are not needed because agents always correspond to `X`, and `X` is always in first position in a sentence.
+Put differently, there is no need for semantic roles because the position of agents, and patients does not vary. 
+If, on the other hand, passive forms of active sentences were included, semantic roles would be useful to distinguish agents from patients.
 
 ## Compatibility
 

@@ -1,16 +1,14 @@
 from itertools import product
 import random
-from typing import Union, Generator
+from typing import Generator
 import colorlog
 
 from groundedlang.entity import InAnimate, Animate
-from groundedlang.primitives import resolve
 from groundedlang.event import Action
 from groundedlang.location import Location
 from groundedlang.workspace import WorkSpace as Ws
 
-from semantics import animates
-from semantics import inanimates
+from semantics.entities import animates, inanimates
 
 handler = colorlog.StreamHandler()
 handler.setFormatter(colorlog.ColoredFormatter(
@@ -33,8 +31,8 @@ class World:
     def __init__(self,
                  max_x: int,
                  max_y: int,
-                 num_animates: int = 2,  # num instances not types
-                 num_inanimates: int = 100,  # num instances not types
+                 num_animates: int,  # num instances not types
+                 num_inanimates: int,  # num instances not types
                  ):
 
         self.locations = [Location(x=x, y=y)
@@ -43,20 +41,29 @@ class World:
         self.animates = []
         self.inanimates = []
 
+        entity_kwargs = {'max_x': max_x, 'max_y': max_y}
+
         # animates
         for ae_def in random.choices(animates.definitions, k=num_animates):
-            ae = Animate.from_def(ae_def)
-            ae.location = random.choice(self.locations)
+            ae = Animate.from_def(ae_def, entity_kwargs)
+            location = random.choice(self.locations)
+            location.entities.append(ae)
+            ae.location = location
             ae.eat_location = ae.location  # todo but only humans have a non-changing eating location
             self.animates.append(ae)
 
         # inanimates
         for ie_def in random.choices(inanimates.definitions, k=num_inanimates):
-            ie = InAnimate.from_def(ie_def)
-            ie.location = random.choice(self.locations)
+            ie = InAnimate.from_def(ie_def, entity_kwargs)
+            location = random.choice(self.locations)
+            location.entities.append(ie)
+            ie.location = location
             self.inanimates.append(ie)
+            log_world.debug(f'{ie}')
 
         log_world.debug(f'Initialized world with {len(self.locations)} locations')
+
+        Ws.locations = self.locations  # locations must be globally available and never re-initialized
 
     def turn(self) -> Generator[Action, None, None]:
         """
@@ -75,11 +82,12 @@ class World:
 
             # get event_type to increase drive with highest level (e.g. "eat")
             event_type = animate_i.decide_event_type()
+            log_world.debug(f'{animate_i} begins event of type {event_type}.')
 
             # get event
             if event_type == 'eat':
                 # import eat events only once workspace has been updated
-                from semantics import eat
+                from semantics.events import eat
                 # get one eating sequence
                 try:
                     events = eat.entity2eat_events[animate_i.name]
@@ -99,7 +107,7 @@ class World:
                     try:
                         entity_loaders = event.requirements_y[action.name]
                         entity_loader = random.choice(entity_loaders)
-                        Ws.y = resolve(entity_loader())
+                        Ws.y = entity_loader()
                         log_world.debug(f'Loaded {Ws.y}')
                     except KeyError:
                         raise KeyError(f'Action {action} requires Y but none found.')
@@ -109,7 +117,7 @@ class World:
                     try:
                         entity_loaders = event.requirements_z[action.name]
                         entity_loader = random.choice(entity_loaders)
-                        Ws.z = resolve(entity_loader)()
+                        Ws.z = entity_loader()
                     except KeyError:
                         raise KeyError(f'Action {action} requires Z but none found.')
 

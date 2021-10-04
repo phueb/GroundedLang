@@ -1,4 +1,3 @@
-from typing import Union, Type
 import colorlog
 
 from groundedlang.workspace import WorkSpace as Ws
@@ -28,13 +27,6 @@ class Primitive:
         raise NotImplementedError
 
 
-def resolve(a: Union[Primitive, Entity]):
-    if isinstance(a, Primitive):
-        return a()
-    else:
-        return a
-
-
 class Empty(Primitive):
     def __init__(self):
         pass
@@ -54,7 +46,7 @@ class Move(Primitive):
     def __call__(self, *args, **kwargs) -> Location:
         location_target: Location = self.location_()
         entity: Entity = self.entity_()
-        log_primitives.debug(f'Moving {entity}\nto {location_target}')
+        log_primitives.debug(f'Moving {entity} to {location_target}')
         entity.location = location_target
         return location_target
 
@@ -70,10 +62,9 @@ class InspectLocation(Primitive):
     def __call__(self) -> bool:
         entity = self.entity_()
         location = self.location_()
-        found = entity in location.entities
+        found = entity.name in [e.name for e in location.entities]  # match name not object
         if not found:
-            log_primitives.debug(f'Did not find {entity} in {location}'
-                                 f'{location.entities}')
+            log_primitives.debug(f'Did not find {entity} in {location} with entities {location.entities}')
         return found
 
 
@@ -87,7 +78,7 @@ class GetX(Primitive):
     def __getattr__(self, item):
         """we need to return a function that returns the attribute, instead of getting the attribute right away"""
 
-        log_primitives.debug(f'Calling __gettattr__ with "{item}"')
+        log_primitives.debug(f'Initialized __gettattr__ with "{item}"')
 
         class Attr(Primitive):
             log_primitives.debug('Initialized Attr')

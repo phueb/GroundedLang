@@ -1,5 +1,5 @@
 import random
-from typing import Optional, Type
+from typing import Optional, Type, Dict
 import queue
 from dataclasses import dataclass
 
@@ -11,35 +11,51 @@ class Entity:
     def __init__(self,
                  name: str,
                  category: str,
+                 **kwargs
                  ):
         self.name = name
         self.category = category
         self.definite = False  # todo how does an entity become definite?
 
+        # location info
+        self.max_x: Optional[int] = kwargs.get('max_x', None)
+        self.max_y: Optional[int] = kwargs.get('max_y', None)
         self.location: Optional[Location] = None  # assigned upon initialization of World
-
         self.locations_visited = queue.LifoQueue()  # todo use
 
     def __str__(self):
         res = ''
         res += f'Entity\n'
         res += f'   name "{self.name}"\n'
-        res += f'   location={self.location}'
+        res += f'   location={self.location}\n'
         return res
+
+    def __repr__(self):
+        """this string will show when entity is printed as part of a collection (e.g. inside a list)"""
+        return self.name
 
     @property
     def adjacent_location(self):
-        raise NotImplementedError
-        return Location(x=self.location.x + random.choice([-1, 0, 1]),  # todo must not be larger than max x and max y
-                        y=self.location.y + random.choice([-1, 0, 1]))
+        """find adjacent location tha tis not outside bounds of the world"""
 
-    @property
-    def next_location(self):  # todo
-        return Location
+        from groundedlang.workspace import WorkSpace as Ws
+
+        while True:
+            x = self.location.x + random.choice([-1, 0, 1])
+            y = self.location.y + random.choice([-1, 0, 1])
+            for location in Ws.locations:
+                if location.x == x and location.y == y:
+                    return location
 
     @classmethod
-    def from_def(cls, d):
-        return d.cls(**d.__dict__)
+    def from_def(cls,
+                 d,  # of type EntityDef
+                 entity_kwargs: Optional[Dict] = None,
+                 ):
+        if entity_kwargs:
+            return d.cls(**d.__dict__, **entity_kwargs)
+        else:
+            return d.cls(**d.__dict__)
 
 
 @dataclass
@@ -57,7 +73,7 @@ class InAnimate(Entity):
                  category: str,
                  **kwargs
                  ):
-        super().__init__(name, category)
+        super().__init__(name, category, **kwargs)
 
         kwargs.pop('cls')
 
@@ -68,7 +84,7 @@ class Animate(Entity):
                  category: str,
                  **kwargs,
                  ):
-        super().__init__(name, category)
+        super().__init__(name, category, **kwargs)
 
         kwargs.pop('cls')
 

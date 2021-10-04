@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any, Tuple, Union, Type
 
 from groundedlang.load import LoadEntity
-from groundedlang.entity import Entity, Animate
 from groundedlang.primitives import Primitive
 
 

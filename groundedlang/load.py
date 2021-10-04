@@ -2,9 +2,8 @@ from typing import Union, Type
 
 from groundedlang.entity import Animate, InAnimate
 
-
-from semantics.inanimates import definitions as definitions_ie
-from semantics.animates import definitions as definitions_ae
+from semantics.entities.inanimates import definitions as definitions_ie
+from semantics.entities.animates import definitions as definitions_ae
 
 
 class LoadEntity:

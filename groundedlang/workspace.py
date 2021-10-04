@@ -1,5 +1,5 @@
 import queue
-from typing import Union, Optional
+from typing import Optional, List
 
 from groundedlang.entity import Entity, Animate, InAnimate
 from groundedlang.location import Location
@@ -15,6 +15,8 @@ class WorkSpace:
     x: Optional[Animate] = None
     y: Optional[Entity] = None
     z: Optional[InAnimate] = None
+
+    locations: List[Location]
 
     @property
     def last_result(self):
