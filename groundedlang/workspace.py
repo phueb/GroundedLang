@@ -2,7 +2,7 @@ import queue
 from typing import Optional, List
 
 from groundedlang.entity import Entity, Animate, InAnimate
-from groundedlang.location import Location
+from groundedlang.coordinate import Location
 
 
 class WorkSpace:
@@ -16,7 +16,7 @@ class WorkSpace:
     y: Optional[Entity] = None
     z: Optional[InAnimate] = None
 
-    locations: List[Location]
+    coordinates: List[Location]
 
     @property
     def last_result(self):

@@ -28,7 +28,7 @@ All actions are defined in terms of a set of primitives and their arguments.
 ### Primitives
 
 Primitives are the only hard-coded functions that are allowed to operate on the world.
-Primitives are functions that manipulate the spatial location of entities in the world (and possibly parts of entities, e.g. hand, foot).
+Primitives are functions that manipulate the spatial coordinate of entities in the world (and possibly parts of entities, e.g. hand, foot).
 
 
 
@@ -52,6 +52,27 @@ The 3rd argument, called `Z`, is always 3rd in the linear ordering of words in a
 If a verb requires a `Z`, then it must also require a `Y` and `X`.
 If a verb requires a `Y`, then it must also require an `X`.
 
+The sentence structure is as follows. Parentheses enclose optional constituents.
+
+__For all agents:__
+
+X + Verb + (Y)
+
+where Y is never a location, or instrument.
+
+__For a HUMAN agent:__
+
+X + Verb + (Y) + (Z)
+
+X + Verb + (Y) + (Z)
+
+Either Y or Z may refer to a location, or instrument.
+
+Because slots are filled from left to right (e.g. X, Y, Z), and an instrument or location must fill the last slot:
+* Z refers to a location or instrument when Y is occupied and does not refer to a location or instrument.
+* Y may refer to a location or instrument if Z is not occupied. 
+
+
 #### Morphology 
 
 No morphological rules as of yet.
@@ -66,8 +87,8 @@ Once the human has found a particular squirrel, it is referred to as *the squirr
 
 ### S-Selection
 
-Selectional preferences (ie., c-selection) are defined in `semantics/verbs.py`.
-C-selection is entirely lexical; that is, each verb selects lexical items - as opposed to categories - as arguments.
+Selectional preferences (ie., s-selection) are defined in `semantics/verbs.py`.
+S-selection is entirely lexical; that is, each verb selects lexical items - as opposed to categories - as arguments.
 
 ### Semantic Roles
 

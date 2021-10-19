@@ -4,7 +4,7 @@ import queue
 from dataclasses import dataclass
 
 from groundedlang.drives import Hunger
-from groundedlang.location import Location
+from groundedlang.coordinate import Location
 
 
 class Entity:
@@ -17,17 +17,17 @@ class Entity:
         self.category = category
         self.definite = False  # todo how does an entity become definite?
 
-        # location info
+        # coordinate info
         self.max_x: Optional[int] = kwargs.get('max_x', None)
         self.max_y: Optional[int] = kwargs.get('max_y', None)
-        self.location: Optional[Location] = None  # assigned upon initialization of World
-        self.locations_visited = queue.LifoQueue()  # todo use
+        self.coordinate: Optional[Location] = None  # assigned upon initialization of World
+        self.coordinates_visited = queue.LifoQueue()  # todo use
 
     def __str__(self):
         res = ''
         res += f'Entity\n'
         res += f'   name "{self.name}"\n'
-        res += f'   location={self.location}\n'
+        res += f'   coordinate={self.coordinate}\n'
         return res
 
     def __repr__(self):
@@ -35,17 +35,17 @@ class Entity:
         return self.name
 
     @property
-    def adjacent_location(self):
-        """find adjacent location tha tis not outside bounds of the world"""
+    def adjacent_coordinate(self):
+        """find adjacent coordinate tha tis not outside bounds of the world"""
 
         from groundedlang.workspace import WorkSpace as Ws
 
         while True:
-            x = self.location.x + random.choice([-1, 0, 1])
-            y = self.location.y + random.choice([-1, 0, 1])
-            for location in Ws.locations:
-                if location.x == x and location.y == y:
-                    return location
+            x = self.coordinate.x + random.choice([-1, 0, 1])
+            y = self.coordinate.y + random.choice([-1, 0, 1])
+            for coordinate in Ws.coordinates:
+                if coordinate.x == x and coordinate.y == y:
+                    return coordinate
 
     @classmethod
     def from_def(cls,
@@ -89,7 +89,7 @@ class Animate(Entity):
         kwargs.pop('cls')
 
         self.hunger = Hunger()
-        self.eat_location = None
+        self.eat_coordinate = None
 
     def decide_event_type(self):
 

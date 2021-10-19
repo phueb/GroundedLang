@@ -1,7 +1,7 @@
 import colorlog
 
 from groundedlang.workspace import WorkSpace as Ws
-from groundedlang.location import Location
+from groundedlang.coordinate import Location
 from groundedlang.entity import Entity, Animate, InAnimate
 
 
@@ -38,33 +38,33 @@ class Empty(Primitive):
 class Move(Primitive):
     def __init__(self,
                  entity_: Primitive,
-                 location_: Primitive,
+                 coordinate_: Primitive,
                  ):
-        self.location_ = location_
+        self.coordinate_ = coordinate_
         self.entity_ = entity_
 
     def __call__(self, *args, **kwargs) -> Location:
-        location_target: Location = self.location_()
+        coordinate_target: Location = self.coordinate_()
         entity: Entity = self.entity_()
-        log_primitives.debug(f'Moving {entity} to {location_target}')
-        entity.location = location_target
-        return location_target
+        log_primitives.debug(f'Moving {entity} to {coordinate_target}')
+        entity.coordinate = coordinate_target
+        return coordinate_target
 
 
 class InspectLocation(Primitive):
     def __init__(self,
-                 location_: Primitive,
+                 coordinate_: Primitive,
                  entity_: Primitive,
                  ):
-        self.location_ = location_
+        self.coordinate_ = coordinate_
         self.entity_ = entity_
 
     def __call__(self) -> bool:
         entity = self.entity_()
-        location = self.location_()
-        found = entity.name in [e.name for e in location.entities]  # match name not object
+        coordinate = self.coordinate_()
+        found = entity.name in [e.name for e in coordinate.entities]  # match name not object
         if not found:
-            log_primitives.debug(f'Did not find {entity} in {location} with entities {location.entities}')
+            log_primitives.debug(f'Did not find {entity} in {coordinate} with entities {coordinate.entities}')
         return found
 
 

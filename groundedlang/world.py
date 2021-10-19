@@ -5,7 +5,7 @@ import colorlog
 
 from groundedlang.entity import InAnimate, Animate
 from groundedlang.event import Action
-from groundedlang.location import Location
+from groundedlang.coordinate import Location
 from groundedlang.workspace import WorkSpace as Ws
 
 from semantics.entities import animates, inanimates
@@ -35,7 +35,7 @@ class World:
                  num_inanimates: int,  # num instances not types
                  ):
 
-        self.locations = [Location(x=x, y=y)
+        self.coordinates = [Location(x=x, y=y)
                           for x, y in product(range(max_x), range(max_y))]
 
         self.animates = []
@@ -46,24 +46,24 @@ class World:
         # animates
         for ae_def in random.choices(animates.definitions, k=num_animates):
             ae = Animate.from_def(ae_def, entity_kwargs)
-            location = random.choice(self.locations)
-            location.entities.append(ae)
-            ae.location = location
-            ae.eat_location = ae.location  # todo but only humans have a non-changing eating location
+            coordinate = random.choice(self.coordinates)
+            coordinate.entities.append(ae)
+            ae.coordinate = coordinate
+            ae.eat_coordinate = ae.coordinate  # todo but only humans have a non-changing eating coordinate
             self.animates.append(ae)
 
         # inanimates
         for ie_def in random.choices(inanimates.definitions, k=num_inanimates):
             ie = InAnimate.from_def(ie_def, entity_kwargs)
-            location = random.choice(self.locations)
-            location.entities.append(ie)
-            ie.location = location
+            coordinate = random.choice(self.coordinates)
+            coordinate.entities.append(ie)
+            ie.coordinate = coordinate
             self.inanimates.append(ie)
             log_world.debug(f'{ie}')
 
-        log_world.debug(f'Initialized world with {len(self.locations)} locations')
+        log_world.debug(f'Initialized world with {len(self.coordinates)} coordinates')
 
-        Ws.locations = self.locations  # locations must be globally available and never re-initialized
+        Ws.coordinates = self.coordinates  # coordinates must be globally available and never re-initialized
 
     def turn(self) -> Generator[Action, None, None]:
         """
