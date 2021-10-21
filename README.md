@@ -92,10 +92,14 @@ S-selection is entirely lexical; that is, each verb selects lexical items - as o
 
 ### Semantic Roles
 
-Semantic roles are not explicitly defined, but are implicit in the definitions of verbs and their possible arguments.
-Semantic roles are not needed because agents always correspond to `X`, and `X` is always in first position in a sentence.
-Put differently, there is no need for semantic roles because the position of agents, and patients does not vary. 
-If, on the other hand, passive forms of active sentences were included, semantic roles would be useful to distinguish agents from patients.
+Ther are four semantic roles:
+- X
+- Y
+- I(nstrument)
+- L(ocation)
+
+X and Y can be considered Agent and Patient/Theme and are always realized in slots X, and Y, respectively.
+Arguments corresponding to either I or L are optionally realized at slot Y or Z, depending on whether Y is already occupied.
 
 ## Compatibility
 
