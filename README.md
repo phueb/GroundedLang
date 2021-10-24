@@ -37,46 +37,6 @@ Primitives are functions that manipulate the spatial coordinate of entities in t
 Currently, the linguistic descriptions of goings-on in the world conform exclusively to argument structure. 
 This means that teh sole determinant of the structure of a sentence is argument structure of the verb.
 
-### Grammatical Structure
-
-#### Syntax
-
-The only syntactic rule has to do with ordering of verb arguments. 
-There is only one correct ordering.
-
-Each action is uniquely associated with a single verb, which has 1, 2, or 3 required arguments.
-The set of required arguments is called the theta-grid.
-The 1st argument, called `X`, is always 1st in the linear ordering of words in a sentence.
-The 2nd argument, called `Y`, is always 2nd in the linear ordering of words in a sentence.
-The 3rd argument, called `Z`, is always 3rd in the linear ordering of words in a sentence.
-If a verb requires a `Z`, then it must also require a `Y` and `X`.
-If a verb requires a `Y`, then it must also require an `X`.
-
-The sentence structure is as follows. Parentheses enclose optional constituents.
-
-__For all agents:__
-
-X + Verb + (Y)
-
-where Y is never a location, or instrument.
-
-__For a HUMAN agent:__
-
-X + Verb + (Y) + (Z)
-
-X + Verb + (Y) + (Z)
-
-Either Y or Z may refer to a location, or instrument.
-
-Because slots are filled from left to right (e.g. X, Y, Z), and an instrument or location must fill the last slot:
-* Z refers to a location or instrument when Y is occupied and does not refer to a location or instrument.
-* Y may refer to a location or instrument if Z is not occupied. 
-
-
-#### Morphology 
-
-No morphological rules as of yet.
-
 ### Semantic Structure
 
 ### Definiteness
@@ -92,14 +52,61 @@ S-selection is entirely lexical; that is, each verb selects lexical items - as o
 
 ### Semantic Roles
 
-Ther are four semantic roles:
+There are four semantic roles:
 - X
 - Y
 - I(nstrument)
 - L(ocation)
 
-X and Y can be considered Agent and Patient/Theme and are always realized in slots X, and Y, respectively.
-Arguments corresponding to either I or L are optionally realized at slot Y or Z, depending on whether Y is already occupied.
+X and Y can be considered Agent and Patient/Theme.
+
+### Grammatical Structure
+
+#### Syntax
+
+The syntactic structure has to do with ordering of verb arguments. 
+
+Each action is uniquely associated with a single verb, which can have up to 4 required arguments:
+- X
+- Y 
+- I(nstrument)
+- L(ocation)
+
+Word order must respect the order X, Y, I, L. 
+Required arguments may be dropped by the language system.
+In those case, the argument in the next (right) position, simply moves to the previous (left) position.
+
+All possible sentence structures are shown below.
+
+__For all agents:__
+
+X Verb 
+
+X Verb Y
+
+where Y is never a location, or instrument.
+
+__For a HUMAN agent:__
+
+X Verb Y I
+
+X Verb Y I L
+
+X Verb I
+
+X Verb I L
+
+X Verb L
+
+In short, X and Y are always realized to the left, and to to the right of the verb, respectively.
+Arguments corresponding to either I or L are optionally realized, and I must precede L.
+If Y is absent, but I (or L) is present, then I (or L) follow the verb.
+If I is present, I must always precede L.
+
+
+#### Morphology 
+
+No morphological rules as of yet.
 
 ## Compatibility
 

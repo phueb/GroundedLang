@@ -1,10 +1,10 @@
 import random
-from typing import Optional, Type, Dict
+from typing import Optional, Type, Dict, List
 import queue
 from dataclasses import dataclass
 
 from groundedlang.drives import Hunger
-from groundedlang.coordinate import Location
+from groundedlang.coordinate import Coordinate
 
 
 class Entity:
@@ -20,7 +20,7 @@ class Entity:
         # coordinate info
         self.max_x: Optional[int] = kwargs.get('max_x', None)
         self.max_y: Optional[int] = kwargs.get('max_y', None)
-        self.coordinate: Optional[Location] = None  # assigned upon initialization of World
+        self.coordinate: Optional[Coordinate] = None  # assigned upon initialization of World
         self.coordinates_visited = queue.LifoQueue()  # todo use
 
     def __str__(self):
@@ -61,7 +61,7 @@ class Entity:
 @dataclass
 class EntityDefinition:
     name: str
-    category: str
+    categories: List[str]  # top-most category first,
     cls: Type[Entity]
 
     # todo what about custom attributes?

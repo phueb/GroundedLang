@@ -5,7 +5,7 @@ import colorlog
 
 from groundedlang.entity import InAnimate, Animate
 from groundedlang.event import Action
-from groundedlang.coordinate import Location
+from groundedlang.coordinate import Coordinate
 from groundedlang.workspace import WorkSpace as Ws
 
 from semantics.entities import animates, inanimates
@@ -35,7 +35,7 @@ class World:
                  num_inanimates: int,  # num instances not types
                  ):
 
-        self.coordinates = [Location(x=x, y=y)
+        self.coordinates = [Coordinate(x=x, y=y)
                           for x, y in product(range(max_x), range(max_y))]
 
         self.animates = []
@@ -113,16 +113,16 @@ class World:
                         raise KeyError(f'Action {action} requires Y but none found.')
 
                 # check z requirement
-                if action.requires_z and Ws.z is None:
+                if action.requires_l and Ws.i is None:
                     try:
-                        entity_loaders = event.requirements_z[action.name]
+                        entity_loaders = event.requirements_i[action.name]
                         entity_loader = random.choice(entity_loaders)
-                        Ws.z = entity_loader()
+                        Ws.i = entity_loader()
                     except KeyError:
                         raise KeyError(f'Action {action} requires Z but none found.')
 
                 # did action fail due to chance?
-                if random.random() > action.failure_probability:
+                if random.random() < action.failure_probability:
                     log_world.debug(f'{action} failed')
                     continue
 

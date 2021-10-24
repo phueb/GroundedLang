@@ -16,33 +16,37 @@ from groundedlang.entity import Animate, InAnimate
 from semantics.verbs import verb2action
 
 
+human_eat_bovine = Event(
+    requirements_y={
+        'look_for': [
+            LoadEntity(cls=Animate, name='fox'),
+        ],
+    },
+    requirements_l={
+        'transport': [
+            LoadEntity(cls=InAnimate, name='tent'),
+        ],
+    },
+    likelihood=1,
+    actions=[
+        verb2action['look_for'],
+        verb2action['chase'],
+        verb2action['throw_at'],
+        verb2action['butcher'],
+        verb2action['gather'],
+        verb2action['transport'],
+        verb2action['heat'],
+        verb2action['eat'],
+    ],
+)
+
+
 entity2eat_events = {
 
     # HUMANS
 
     'Mary': (
-        Event(
-            requirements_y={
-                'look_for': [
-                    LoadEntity(cls=Animate, name='fox'),
-                ],
-            },
-            requirements_z={
-                'transport': [
-                    LoadEntity(cls=InAnimate, name='tent'),
-                ],
-            },
-            likelihood=1,
-            actions=[
-                verb2action['look_for'],
-                verb2action['chase'],
-                verb2action['stab'],
-                verb2action['transport'],
-                verb2action['butcher'],
-                verb2action['cook'],
-                verb2action['eat'],
-            ],
-        ),
+        human_eat_bovine,
     ),
 
     # CARNIVORES

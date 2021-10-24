@@ -15,9 +15,10 @@ class Action:
     primitives: List[Primitive]
     failure_probability: float
     num_attempts: int
-    requires_x: bool = False
-    requires_y: bool = False
-    requires_z: bool = False
+    requires_x: bool = False  # agent
+    requires_y: bool = False  # theme/patient
+    requires_l: bool = False  # location
+    requires_i: bool = False  # instrument
 
     def __str__(self):
         return f'"{self.name}"'
@@ -29,7 +30,8 @@ class Event:
     likelihood: int  # between 1 and 10
 
     requirements_y: Dict[str, List[LoadEntity]]
-    requirements_z: Dict[str, List[LoadEntity]] = field(default_factory=dict)
+    requirements_i: Dict[str, List[LoadEntity]] = field(default_factory=dict)
+    requirements_l: Dict[str, List[LoadEntity]] = field(default_factory=dict)
 
     def __str__(self):
         return str(self.actions[-1])

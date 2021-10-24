@@ -6,15 +6,28 @@ definitions = [
 
     EntityDefinition(
         name='Mary',
-        category='HUMAN',
+        categories=['HUMAN'],
         cls=Animate,
     ),
+
+    EntityDefinition(
+        name='Jon',
+        categories=['HUMAN'],
+        cls=Animate,
+    ),
+
+    EntityDefinition(
+        name='Bill',
+        categories=['HUMAN'],
+        cls=Animate,
+    ),
+
 
     # CARNIVORE
 
     EntityDefinition(
         name='fox',
-        category='CARNIVORE',
+        categories=['CARNIVORE'],
         cls=Animate,
     ),
 
@@ -22,7 +35,7 @@ definitions = [
 
     EntityDefinition(
         name='squirrel',
-        category='HERBIVORE',
+        categories=['HERBIVORE'],
         cls=Animate,
     ),
 ]

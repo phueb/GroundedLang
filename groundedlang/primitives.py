@@ -1,7 +1,7 @@
 import colorlog
 
 from groundedlang.workspace import WorkSpace as Ws
-from groundedlang.coordinate import Location
+from groundedlang.coordinate import Coordinate
 from groundedlang.entity import Entity, Animate, InAnimate
 
 
@@ -43,15 +43,15 @@ class Move(Primitive):
         self.coordinate_ = coordinate_
         self.entity_ = entity_
 
-    def __call__(self, *args, **kwargs) -> Location:
-        coordinate_target: Location = self.coordinate_()
+    def __call__(self, *args, **kwargs) -> Coordinate:
+        coordinate_target: Coordinate = self.coordinate_()
         entity: Entity = self.entity_()
         log_primitives.debug(f'Moving {entity} to {coordinate_target}')
         entity.coordinate = coordinate_target
         return coordinate_target
 
 
-class InspectLocation(Primitive):
+class InspectCoordinate(Primitive):
     def __init__(self,
                  coordinate_: Primitive,
                  entity_: Primitive,
@@ -95,6 +95,11 @@ class GetY(Primitive):
         return Ws.y
 
 
-class GetZ(Primitive):
+class GetI(Primitive):
     def __call__(self) -> InAnimate:
-        return Ws.z
+        return Ws.i
+
+
+class GetL(Primitive):
+    def __call__(self) -> InAnimate:
+        return Ws.l
