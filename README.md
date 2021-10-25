@@ -4,7 +4,11 @@
 
 A Python toolkit for customizing and generating samples of artificial language with semantic structure that is grounded in a simulated world.  
 
-Research-code. Under active development.
+Research-code. 
+
+> :warning: **WARNING**: Research-code. Not for production use.
+
+> :warning: **WARNING**: This project is not stable, nor fully implemented.
 
 ## Design Considerations
 
