@@ -19,7 +19,9 @@ from semantics.verbs import verb2action
 human_eat_bovine = Event(
     requirements_y={
         'look_for': [
-            LoadEntity(cls=Animate, name='fox'),
+            LoadEntity(cls=Animate, name='bison'),
+            # LoadEntity(cls=Animate, name='buffalo'),
+            # LoadEntity(cls=Animate, name='buffalo'),
         ],
     },
     requirements_l={

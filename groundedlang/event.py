@@ -1,5 +1,5 @@
 """
-An event consists of a sequence of actions that result in teh reduction of one drive
+An event consists of a sequence of actions that result in the reduction of one drive
 """
 
 from dataclasses import dataclass, field

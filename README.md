@@ -60,6 +60,11 @@ There are four semantic roles:
 
 X and Y can be considered Agent and Patient/Theme.
 
+
+### Additional Constraints
+
+- Non humans stay in set locations, but humans can move anywhere
+
 ### Grammatical Structure
 
 #### Syntax
